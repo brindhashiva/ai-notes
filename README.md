@@ -84,45 +84,72 @@ Open http://127.0.0.1:8000
 
 ## Tech Stack
 
-| Layer     | Technology                       |
-|-----------|----------------------------------|
-| Backend   | Python, FastAPI                  |
-| Frontend  | HTML, CSS, Jinja2, marked.js     |
-| Database  | MongoDB Atlas                    |
-| AI Model  | Gemma 3 1B (llama.cpp, local)    |
-| Auth      | Session cookies, SHA-256         |
+| Layer     | Technology                          |
+|:---------:|:----------------------------------:|
+| Backend   | Python, FastAPI                    |
+| Frontend  | HTML, CSS, Jinja2                  |
+| Database  | MongoDB Atlas                      |
+| AI Model  | Local LLM / Gemini API             |
+| Auth      | Session Cookies, SHA-256           |
 
 ---
 
-## MongoDB Collections
+## Database Design
 
-### users
-| Field    | Type   | Description             |
-|----------|--------|-------------------------|
-| name     | string | Full name               |
-| email    | string | Unique email            |
-| password | string | SHA-256 hashed          |
-| joined   | string | Registration date       |
+The application uses MongoDB to store user data and conversation history. The database is structured into two main collections.
 
-### notes
-| Field     | Type   | Description             |
-|-----------|--------|-------------------------|
-| user_id   | string | Reference to user       |
-| message   | string | User message            |
-| response  | string | AI response             |
-| timestamp | string | Date and time           |
+### users Collection
+
+Stores user account details.
+
+| Field    | Type   | Description              |
+|:--------:|:------:|:------------------------:|
+| name     | string | Full name of the user    |
+| email    | string | Unique email address     |
+| password | string | SHA-256 hashed password  |
+| joined   | string | Registration date        |
+
+---
+
+### notes Collection
+
+Stores user messages and AI responses.
+
+### notes Collection
+
+| Field     | Type   | Description                  |
+|:---------:|:------:|:----------------------------:|
+| user_id   | string | Reference to the user        |
+| message   | string | User input message           |
+| response  | string | AI-generated response        |
+| timestamp | string | Date and time of interaction |
+
+---
+
+## Data Flow
+
+1. User enters a message through the web interface  
+2. Request is sent to FastAPI backend  
+3. Backend processes input using AI model  
+4. Response is generated  
+5. Message and response are stored in MongoDB  
+6. Chat history is retrieved and displayed  
 
 ---
 
 ## Security
 
-- Passwords hashed with SHA-256
-- Sessions use secure random tokens stored in MongoDB
-- Secrets loaded from `.env` — never hardcoded
-- `.env` is in `.gitignore`
+- Passwords are hashed using SHA-256  
+- Sensitive data such as API keys and database URIs are stored in environment variables (`.env`)  
+- No credentials are hardcoded in the application  
 
 ---
 
-## License
+## Example Data (MongoDB Document)
 
-MIT
+```json
+{
+  "message": "What is AI?",
+  "response": "Artificial Intelligence is the simulation of human intelligence by machines.",
+  "timestamp": "2026-04-21 10:30:00"
+}
