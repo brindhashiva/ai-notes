@@ -30,11 +30,6 @@ A full-stack AI-powered chat application built with FastAPI, MongoDB Atlas, and 
 ### Profile
 ![Profile](screenshots/profile-page.png)
 
-### MongoDB — Notes Collection
-![MongoDB Notes](screenshots/mongodb_notes.png)
-
-### MongoDB — Users Collection
-![MongoDB Users](screenshots/mongodb_users.png)
 
 ---
 
@@ -153,3 +148,4 @@ Stores user messages and AI responses.
   "response": "Artificial Intelligence is the simulation of human intelligence by machines.",
   "timestamp": "2026-04-21 10:30:00"
 }
+```
