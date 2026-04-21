@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login · AI Notes</title>
+<style>
+:root {
+  --bg: #0d0d1a;
+  --surface: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.08);
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --accent: #7c3aed;
+  --glow: rgba(124,58,237,0.35);
+  --grad: linear-gradient(135deg,#7c3aed,#4f46e5);
+  --input-bg: rgba(255,255,255,0.06);
+  --red: #ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;animation:drift 14s ease-in-out infinite alternate;}
+.orb-1{width:500px;height:500px;background:rgba(124,58,237,0.12);top:-150px;left:-100px;}
+.orb-2{width:350px;height:350px;background:rgba(79,70,229,0.09);bottom:-80px;right:-80px;animation-delay:-6s;}
+@keyframes drift{from{transform:translate(0,0);}to{transform:translate(25px,18px);}}
+
+.card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:40px 36px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:10;}
+
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;justify-content:center;}
+.logo-icon{width:42px;height:42px;background:var(--grad);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 20px var(--glow);}
+.logo-text{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+h2{font-size:1.4rem;font-weight:700;margin-bottom:6px;text-align:center;}
+.sub{font-size:0.85rem;color:var(--text-muted);text-align:center;margin-bottom:28px;}
+
+.error{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;padding:10px 14px;border-radius:10px;font-size:0.83rem;margin-bottom:18px;}
+
+.field{margin-bottom:16px;}
+label{display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px;font-weight:500;}
+input{width:100%;padding:12px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:0.92rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
+input::placeholder{color:var(--text-muted);}
+
+.btn{width:100%;padding:13px;background:var(--grad);color:white;border:none;border-radius:12px;font-size:0.95rem;font-weight:600;cursor:pointer;margin-top:8px;transition:opacity .2s,transform .15s;box-shadow:0 4px 18px var(--glow);}
+.btn:hover{opacity:.9;transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+
+.footer{text-align:center;margin-top:22px;font-size:0.83rem;color:var(--text-muted);}
+.footer a{color:#a78bfa;text-decoration:none;font-weight:500;}
+.footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">🧠</div>
+    <span class="logo-text">AI Notes</span>
+  </div>
+
+  <h2>Welcome back</h2>
+  <p class="sub">Sign in to your account</p>
+
+  {% if error %}
+  <div class="error">⚠️ {{ error }}</div>
+  {% endif %}
+
+  <form action="/login" method="post">
+    <div class="field">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="you@example.com" required autofocus>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="••••••••" required>
+    </div>
+    <button type="submit" class="btn">Sign In</button>
+  </form>
+
+  <div class="footer">
+    Don't have an account? <a href="/register">Create one</a>
+  </div>
+</div>
+</body>
+</html>
