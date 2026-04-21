@@ -142,8 +142,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .ts-right{text-align:right;}
 .ts-left{text-align:left;}
 
-.empty{text-align:center;color:var(--text-muted);margin:auto;display:flex;flex-direction:column;align-items:center;gap:12px;}
-.empty-icon{font-size:3rem;opacity:.35;}
+.empty{text-align:center;color:var(--text-muted);margin:auto;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.welcome-icon{font-size:3.5rem;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.welcome-title{font-size:1.4rem;font-weight:700;color:var(--text);background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.welcome-sub{font-size:0.85rem;color:var(--text-muted);}
+.suggestion-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;width:100%;max-width:480px;}
+.suggestion{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);font-size:0.82rem;cursor:pointer;text-align:left;transition:background .2s,border-color .2s,transform .15s;backdrop-filter:blur(10px);}
+.suggestion:hover{background:var(--surface2);border-color:var(--accent);transform:translateY(-2px);}
 
 /* Bottom input */
 .bottom-bar{padding:12px 20px 18px;flex-shrink:0;}
@@ -194,10 +200,10 @@ input[type="text"]::placeholder{color:var(--text-muted);}
   </div>
 
   <button class="nav-item active" onclick="showPage('chat',this)">
-    <span class="icon">💬</span> Chat
+    <span class="icon">✏️</span> New Chat
   </button>
   <button class="nav-item" onclick="showPage('dashboard',this)">
-    <span class="icon">📊</span> Dashboard
+    <span class="icon">🕘</span> Chat History
   </button>
   <button class="nav-item" onclick="showPage('profile',this)">
     <span class="icon">👤</span> Profile
@@ -224,7 +230,7 @@ input[type="text"]::placeholder{color:var(--text-muted);}
   <!-- CHAT PAGE -->
   <div class="page active" id="page-chat">
     <div class="topbar">
-      <div class="topbar-title">💬 Chat · <span style="font-size:.75rem;color:var(--text-muted);font-weight:400;">{{ model_name }}</span></div>
+      <div class="topbar-title">✏️ New Chat · <span style="font-size:.75rem;color:var(--text-muted);font-weight:400;">{{ model_name }}</span></div>
       <div class="topbar-right">
         <label class="theme-toggle" title="Toggle theme">
           <input type="checkbox" id="themeToggle">
@@ -260,8 +266,15 @@ input[type="text"]::placeholder{color:var(--text-muted);}
           {% endfor %}
         {% else %}
           <div class="empty">
-            <div class="empty-icon">💬</div>
-            <span>No chats yet — ask me anything!</span>
+            <div class="welcome-icon">🧠</div>
+            <div class="welcome-title">Hello, {{ user.name.split()[0] }}!</div>
+            <div class="welcome-sub">Ask me anything — powered by {{ model_name }}</div>
+            <div class="suggestion-grid">
+              <button class="suggestion" onclick="fillInput(this)">What is Generative AI?</button>
+              <button class="suggestion" onclick="fillInput(this)">Explain machine learning</button>
+              <button class="suggestion" onclick="fillInput(this)">Write a Python hello world</button>
+              <button class="suggestion" onclick="fillInput(this)">What is MongoDB?</button>
+            </div>
           </div>
         {% endif %}
       </div>
@@ -286,7 +299,7 @@ input[type="text"]::placeholder{color:var(--text-muted);}
   <!-- DASHBOARD PAGE -->
   <div class="page" id="page-dashboard">
     <div class="topbar">
-      <div class="topbar-title">📊 Dashboard</div>
+      <div class="topbar-title">🕘 Chat History</div>
     </div>
     <div class="dashboard-body">
       <div class="stats-grid">
@@ -437,6 +450,13 @@ input[type="text"]::placeholder{color:var(--text-muted);}
   // Scroll to bottom
   const box = document.getElementById('chatBox');
   if(box) box.scrollTop = box.scrollHeight;
+
+  // Fill input from suggestion
+  function fillInput(btn) {
+    const input = document.getElementById('msgInput');
+    input.value = btn.textContent;
+    input.focus();
+  }
 
   // Render markdown in all AI bubbles
   document.querySelectorAll('.markdown').forEach(el => {
